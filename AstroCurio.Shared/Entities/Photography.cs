@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AstroCurio.Shared.Entities
 {
@@ -27,22 +28,23 @@ namespace AstroCurio.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Descripción { get; set; } = null!;
 
-        [Display(Name = "URL")]
-        [MaxLength(255, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Url { get; set; } = null!;
+       
 
         [Display(Name = "Fecha de Publicación")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public DateTime Fecha_publi { get; set; }
 
         [Display(Name = "Categoría")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-
+        public int CategoryId { get; set; }
+       
         //RELACIONE FK
+
+        [JsonIgnore]
 
         [ForeignKey("UserId")]
         public User User { get; set; }
+
+        [JsonIgnore]
 
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }

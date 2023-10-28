@@ -7,11 +7,11 @@ namespace AstroCurio.Api.Controllers
 {
     [ApiController]
     [Route("/api/Links")]
-    public class LinkesController : ControllerBase
+    public class LinksController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public LinkesController(DataContext context)
+        public LinksController(DataContext context)
         {
             _context = context;
         }

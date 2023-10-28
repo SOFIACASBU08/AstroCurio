@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AstroCurio.Shared.Entities
 {
@@ -33,9 +34,13 @@ namespace AstroCurio.Shared.Entities
 
         //RELACONES Fk
 
+        [JsonIgnore]
+
         [ForeignKey("UserId")]
         public User User { get; set; }
-       
+
+        [JsonIgnore]
+
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
        

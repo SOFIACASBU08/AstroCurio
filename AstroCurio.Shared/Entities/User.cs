@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AstroCurio.Shared.Entities
 {
@@ -43,5 +44,14 @@ namespace AstroCurio.Shared.Entities
 
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";
+
+        [JsonIgnore]
+        ICollection<Article> Articles { get; set; }
+
+        [JsonIgnore]
+        ICollection<Link> Links { get; set; }
+
+        [JsonIgnore]
+        ICollection<Photography> photographies { get; set; }
     }
 }

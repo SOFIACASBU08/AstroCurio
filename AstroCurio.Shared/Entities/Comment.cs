@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AstroCurio.Shared.Entities
 {
@@ -33,16 +34,29 @@ namespace AstroCurio.Shared.Entities
         public string Contenido { get; set; } = null!;
 
         //RELACION FK
+        [JsonIgnore]
 
         [ForeignKey("LinkId")]
         public Link Link { get; set; }
 
+        [JsonIgnore]
+
         [ForeignKey("ArticleId")]
         public Article Article { get; set; }
 
+        [JsonIgnore]
 
         [ForeignKey("PhotographyId")]
         public Photography Photography { get; set; }
+
+        [JsonIgnore]
+        ICollection<Article> Articles { get; set; }
+
+        [JsonIgnore]
+        ICollection<Link> Links { get; set; }
+
+        [JsonIgnore]
+        ICollection<Photography> photographies { get; set; }
 
 
 

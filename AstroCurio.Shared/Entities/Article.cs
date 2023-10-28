@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AstroCurio.Shared.Entities
 {
@@ -38,11 +39,16 @@ namespace AstroCurio.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public int CategoryId { get; set; }
 
+
         //propiedades para la relación
         //FK
+
+        [JsonIgnore]
         [ForeignKey("UserId")]
         public User User { get; set; }
 
+       
+        [JsonIgnore]
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 

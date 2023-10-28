@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AstroCurio.Shared.Entities
 {
@@ -27,6 +28,8 @@ namespace AstroCurio.Shared.Entities
         public string Notificación { get; set; } = null!;
 
         //RELACIÓN FK
+
+        [JsonIgnore]
 
         [ForeignKey("UserId")]
         public User User_Seguido { get; set; }

@@ -8,7 +8,7 @@ namespace AstroCurio.Api.Controllers
 
     [ApiController]
     [Route("/api/Articles")]
-    public class ArticlesController:ControllerBase
+    public class ArticlesController : ControllerBase
     {
         private readonly DataContext _context;
 
@@ -16,88 +16,75 @@ namespace AstroCurio.Api.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public async Task<ActionResult> Get()
         {
+            // Incluye las propiedades de navegación para User y Category
+            var articles = await _context.Articles
+                .Include(a => a.User)
+                .Include(a => a.Category)
+                .ToListAsync();
 
-            return Ok(await _context.Articles.ToListAsync());
-
-
+            return Ok(articles);
         }
 
-        // Get por parámetro
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get(int id)
         {
+            var article = await _context.Articles
+                .Include(a => a.User)
+                .Include(a => a.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            //200 Ok
-
-            var Article = await _context.Articles.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (Article == null)
+            if (article == null)
             {
-
-
                 return NotFound();
             }
 
-            return Ok(Article);
-
-
+            return Ok(article);
         }
 
-        // Crear un nuevo registro
         [HttpPost]
-        public async Task<ActionResult> Post(Article Article)
+        public async Task<ActionResult> Post(Article article)
         {
             try
             {
-                // Asignar el usuario y la categoría relacionados
-                Article.User = _context.Users.Find(Article.UserId);
-                Article.Category = _context.Categories.Find(Article.CategoryId);
+                // Asignar el usuario y la categoría relacionados utilizando sus IDs
+                article.User = await _context.Users.FindAsync(article.UserId);
+                article.Category = await _context.Categories.FindAsync(article.CategoryId);
 
-                _context.Articles.Add(Article);
+                _context.Articles.Add(article);
                 await _context.SaveChangesAsync();
-                return Ok(Article);
+                return Ok(article);
             }
             catch (Exception ex)
             {
-                // Manejar excepciones, por ejemplo, si el usuario o la categoría no se encuentran
                 return BadRequest("Error al crear el artículo: " + ex.Message);
             }
         }
 
-        // Actualizar o cambiar registro
-
         [HttpPut]
-        public async Task<ActionResult> Put(Article Article)
+        public async Task<ActionResult> Put(Article article)
         {
-            _context.Update(Article);
+            _context.Update(article);
             await _context.SaveChangesAsync();
-            return Ok(Article);
+            return Ok(article);
         }
-
-        // ELiminar registros
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-
-
-            var FilaAfectada = await _context.Articles
-                .Where(x => x.Id == id)//5
+            var affectedRows = await _context.Articles
+                .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 
-            if (FilaAfectada == 0)
+            if (affectedRows == 0)
             {
-
-
-                return NotFound();//404
+                return NotFound();
             }
 
-            return NoContent();//204
-
-
+            return NoContent();
         }
     }
 }
