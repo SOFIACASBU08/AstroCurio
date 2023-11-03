@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AstroCurio.Shared.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace AstroCurio.Api.Data
 {
-    public class DataContext:DbContext
+    public class DataContext:IdentityDbContext<User> 
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
