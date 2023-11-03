@@ -11,16 +11,13 @@ namespace AstroCurio.Shared.Entities
 {
     public class Article
     {
-        [Key]
-        [Display(Name = "Id")]
-        [MaxLength(20, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        
+        
         public int Id { get; set; }
 
 
-        [Display(Name = "Id")]
-        public string UserId { get; set; } = null!;
-
+        
+       
         [Display(Name = "Título")]
         [MaxLength(100, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
@@ -35,22 +32,24 @@ namespace AstroCurio.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public DateTime Fecha_publi { get; set; }
 
-        [Display(Name = "Categoría")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public int CategoryId { get; set; }
+       
+       
 
 
         //propiedades para la relación
         //FK
-
+        public int PersonId { get; set; }
         [JsonIgnore]
-        [ForeignKey("UserId")]
-        public User User { get; set; }
+         public Person Person { get; set; }
 
-       
+        public int CategoryId { get; set; }
         [JsonIgnore]
-        [ForeignKey("CategoryId")]
         public Category Category { get; set; }
+
+
+
+        [JsonIgnore]
+        public ICollection<Comment> Comments { get; set; }
 
 
 

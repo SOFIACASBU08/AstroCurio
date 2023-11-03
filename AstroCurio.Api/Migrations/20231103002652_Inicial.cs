@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using static System.Collections.Specialized.BitVector32;
 
 #nullable disable
 
 namespace AstroCurio.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class INICIAL : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,10 +25,11 @@ namespace AstroCurio.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "People",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -37,19 +37,19 @@ namespace AstroCurio.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_People", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Articles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", maxLength: 20, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(20)", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Contenido = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Fecha_publi = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PersonId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -60,13 +60,13 @@ namespace AstroCurio.Api.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Articles_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.NoAction);
+                        name: "FK_Articles_People_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,19 +75,26 @@ namespace AstroCurio.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    User_SeguidorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    User_SeguidoId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Notificación = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(20)", nullable: true)
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FollowerId = table.Column<int>(type: "int", nullable: false),
+                    FolloweeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Follows", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Follows_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
+                        name: "FK_Follows_People_FolloweeId",
+                        column: x => x.FolloweeId,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Follows_People_FollowerId",
+                        column: x => x.FollowerId,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,10 +103,10 @@ namespace AstroCurio.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(20)", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Fecha_publi = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PersonId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -110,13 +117,13 @@ namespace AstroCurio.Api.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Links_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.NoAction);
+                        name: "FK_Links_People_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,11 +132,11 @@ namespace AstroCurio.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(20)", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Descripción = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Descripción = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Fecha_publi = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PersonId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -140,13 +147,13 @@ namespace AstroCurio.Api.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Photographies_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.NoAction);
+                        name: "FK_Photographies_People_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,11 +162,11 @@ namespace AstroCurio.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LinkId = table.Column<int>(type: "int", nullable: false),
-                    ArticleId = table.Column<int>(type: "int", nullable: false),
-                    PhotographyId = table.Column<int>(type: "int", nullable: false),
                     Fecha_comen = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Contenido = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false)
+                    Contenido = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    LinkId = table.Column<int>(type: "int", nullable: true),
+                    ArticleId = table.Column<int>(type: "int", nullable: true),
+                    PhotographyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -168,20 +175,17 @@ namespace AstroCurio.Api.Migrations
                         name: "FK_Comments_Articles_ArticleId",
                         column: x => x.ArticleId,
                         principalTable: "Articles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_Links_LinkId",
                         column: x => x.LinkId,
                         principalTable: "Links",
-                    principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_Photographies_PhotographyId",
                         column: x => x.PhotographyId,
                         principalTable: "Photographies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -196,9 +200,9 @@ namespace AstroCurio.Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Articles_UserId",
+                name: "IX_Articles_PersonId",
                 table: "Articles",
-                column: "UserId");
+                column: "PersonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Id",
@@ -228,15 +232,20 @@ namespace AstroCurio.Api.Migrations
                 column: "PhotographyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Follows_FolloweeId",
+                table: "Follows",
+                column: "FolloweeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Follows_FollowerId",
+                table: "Follows",
+                column: "FollowerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Follows_Id",
                 table: "Follows",
                 column: "Id",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Follows_UserId",
-                table: "Follows",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Links_CategoryId",
@@ -250,9 +259,14 @@ namespace AstroCurio.Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Links_UserId",
+                name: "IX_Links_PersonId",
                 table: "Links",
-                column: "UserId");
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_People_Id",
+                table: "People",
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Photographies_CategoryId",
@@ -266,15 +280,9 @@ namespace AstroCurio.Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Photographies_UserId",
+                name: "IX_Photographies_PersonId",
                 table: "Photographies",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_UserId",
-                table: "Users",
-                column: "UserId",
-                unique: true);
+                column: "PersonId");
         }
 
         /// <inheritdoc />
@@ -299,7 +307,7 @@ namespace AstroCurio.Api.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "People");
         }
     }
 }

@@ -26,7 +26,6 @@ namespace AstroCurio.Api.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(20)
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
@@ -42,14 +41,13 @@ namespace AstroCurio.Api.Migrations
                     b.Property<DateTime>("Fecha_publi")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -58,7 +56,7 @@ namespace AstroCurio.Api.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PersonId");
 
                     b.ToTable("Articles");
                 });
@@ -92,7 +90,7 @@ namespace AstroCurio.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ArticleId")
+                    b.Property<int?>("ArticleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Contenido")
@@ -103,10 +101,10 @@ namespace AstroCurio.Api.Migrations
                     b.Property<DateTime>("Fecha_comen")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LinkId")
+                    b.Property<int?>("LinkId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PhotographyId")
+                    b.Property<int?>("PhotographyId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -131,28 +129,27 @@ namespace AstroCurio.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Notificación")
-                        .IsRequired()
+                    b.Property<string>("Estado")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int>("FolloweeId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("User_SeguidoId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FollowerId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("User_SeguidorId")
-                        .IsRequired()
+                    b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FolloweeId");
+
+                    b.HasIndex("FollowerId");
+
                     b.HasIndex("Id")
                         .IsUnique();
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Follows");
                 });
@@ -171,6 +168,9 @@ namespace AstroCurio.Api.Migrations
                     b.Property<DateTime>("Fecha_publi")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -181,10 +181,6 @@ namespace AstroCurio.Api.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -192,61 +188,18 @@ namespace AstroCurio.Api.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PersonId");
 
                     b.ToTable("Links");
                 });
 
-            modelBuilder.Entity("AstroCurio.Shared.Entities.Photography", b =>
+            modelBuilder.Entity("AstroCurio.Shared.Entities.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripción")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("Fecha_publi")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Photographies");
-                });
-
-            modelBuilder.Entity("AstroCurio.Shared.Entities.User", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -268,52 +221,89 @@ namespace AstroCurio.Api.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("Id");
+
+                    b.ToTable("People");
+                });
+
+            modelBuilder.Entity("AstroCurio.Shared.Entities.Photography", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripción")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("Fecha_publi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("Photographies");
                 });
 
             modelBuilder.Entity("AstroCurio.Shared.Entities.Article", b =>
                 {
                     b.HasOne("AstroCurio.Shared.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("articles")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AstroCurio.Shared.Entities.User", "User")
+                    b.HasOne("AstroCurio.Shared.Entities.Person", "Person")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("AstroCurio.Shared.Entities.Comment", b =>
                 {
                     b.HasOne("AstroCurio.Shared.Entities.Article", "Article")
-                        .WithMany()
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId");
 
                     b.HasOne("AstroCurio.Shared.Entities.Link", "Link")
-                        .WithMany()
-                        .HasForeignKey("LinkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Comments")
+                        .HasForeignKey("LinkId");
 
                     b.HasOne("AstroCurio.Shared.Entities.Photography", "Photography")
-                        .WithMany()
-                        .HasForeignKey("PhotographyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Comments")
+                        .HasForeignKey("PhotographyId");
 
                     b.Navigation("Article");
 
@@ -324,49 +314,83 @@ namespace AstroCurio.Api.Migrations
 
             modelBuilder.Entity("AstroCurio.Shared.Entities.Follow", b =>
                 {
-                    b.HasOne("AstroCurio.Shared.Entities.User", "User_Seguido")
+                    b.HasOne("AstroCurio.Shared.Entities.Person", "Followee")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("FolloweeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User_Seguido");
+                    b.HasOne("AstroCurio.Shared.Entities.Person", "Follower")
+                        .WithMany()
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Followee");
+
+                    b.Navigation("Follower");
                 });
 
             modelBuilder.Entity("AstroCurio.Shared.Entities.Link", b =>
                 {
                     b.HasOne("AstroCurio.Shared.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("Links")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AstroCurio.Shared.Entities.User", "User")
+                    b.HasOne("AstroCurio.Shared.Entities.Person", "Person")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("AstroCurio.Shared.Entities.Photography", b =>
                 {
                     b.HasOne("AstroCurio.Shared.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("Photographies")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AstroCurio.Shared.Entities.User", "User")
+                    b.HasOne("AstroCurio.Shared.Entities.Person", "Person")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("AstroCurio.Shared.Entities.Article", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("AstroCurio.Shared.Entities.Category", b =>
+                {
+                    b.Navigation("Links");
+
+                    b.Navigation("Photographies");
+
+                    b.Navigation("articles");
+                });
+
+            modelBuilder.Entity("AstroCurio.Shared.Entities.Link", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("AstroCurio.Shared.Entities.Photography", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

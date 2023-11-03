@@ -8,7 +8,7 @@ namespace AstroCurio.Api.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-        public DbSet<User> Users { get; set; }
+        public DbSet<Person> People { get; set; }
         public DbSet<Follow> Follows { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Link> Links { get; set; }
@@ -26,7 +26,7 @@ namespace AstroCurio.Api.Data
             modelBuilder.Entity<Photography>().HasIndex(a => a.Id).IsUnique();
             modelBuilder.Entity<Comment>().HasIndex(a => a.Id).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(a => a.Id).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(a => a.UserId).IsUnique();
+            modelBuilder.Entity<Person>().HasIndex(a => a.Id);
             modelBuilder.Entity<Follow>().HasIndex(a => a.Id).IsUnique();
 
 

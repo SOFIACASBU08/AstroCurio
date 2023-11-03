@@ -11,17 +11,21 @@ namespace AstroCurio.Shared.Entities
 {
     public class Photography
     {
-        [Key]
-        [Display(Name = "Id")]
+        
+       
         public int Id { get; set; }
 
-        [Display(Name = "Usuario ID")]
-        public string UserId { get; set; } = null!;
+       
 
         [Display(Name = "Título")]
         [MaxLength(100, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Titulo { get; set; } = null!;
+
+        [Display(Name = "URL")]
+        [MaxLength(255, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string Url { get; set; } = null!;
 
         [Display(Name = "Descripción")]
         [MaxLength(200, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
@@ -34,19 +38,23 @@ namespace AstroCurio.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public DateTime Fecha_publi { get; set; }
 
-        [Display(Name = "Categoría")]
-        public int CategoryId { get; set; }
        
+
         //RELACIONE FK
 
-        [JsonIgnore]
-
-        [ForeignKey("UserId")]
-        public User User { get; set; }
+        public int  PersonId { get; set; }
 
         [JsonIgnore]
 
-        [ForeignKey("CategoryId")]
+        public Person Person { get; set; }
+
+        public int CategoryId { get; set; }
+        [JsonIgnore]
+
         public Category Category { get; set; }
+
+
+        [JsonIgnore]
+        public ICollection<Comment> Comments { get; set; }
     }
 }

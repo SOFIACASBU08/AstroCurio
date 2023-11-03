@@ -8,13 +8,11 @@ using System.Text.Json.Serialization;
 
 namespace AstroCurio.Shared.Entities
 {
-    public class User 
+    public class Person 
     {
-        [Key]
-        [Display(Name = "Id")]
-        [MaxLength(20, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string UserId { get; set; } = null!;
+        
+      
+        public int Id { get; set; } 
 
         [Display(Name = "Nombres")]
         [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
@@ -39,19 +37,18 @@ namespace AstroCurio.Shared.Entities
 
 
 
-        // [Display(Name = "Tipo de usuario")]
-        //public UserType UserType { get; set; }
+     
 
-        [Display(Name = "Usuario")]
+        [Display(Name = "Person")]
         public string FullName => $"{FirstName} {LastName}";
 
         [JsonIgnore]
-        ICollection<Article> Articles { get; set; }
+         ICollection<Article> Articles { get; set; }
 
         [JsonIgnore]
         ICollection<Link> Links { get; set; }
 
         [JsonIgnore]
-        ICollection<Photography> photographies { get; set; }
+         ICollection<Photography> photographies { get; set; }
     }
 }

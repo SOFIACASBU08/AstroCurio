@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 namespace AstroCurio.Api.Controllers
 {
     [ApiController]
-    [Route("/api/Users")]
-    public class UsersController : ControllerBase
+    [Route("/api/People")]
+    public class PeopleController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public UsersController(DataContext context)
+        public PeopleController(DataContext context)
         {
             _context = context;
         }
@@ -23,60 +23,60 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Get()
         {
 
-            return Ok(await _context.Users.ToListAsync());
+            return Ok(await _context.People.ToListAsync());
 
 
         }
 
         // Get por parámetro
         [HttpGet("{id:int}")]
-        public async Task<ActionResult> Get(string id)
+        public async Task<ActionResult> Get(int id)
         {
 
             //200 Ok
 
-            var User = await _context.Users.FirstOrDefaultAsync(x => x.UserId == id);
+            var person = await _context.People.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (User == null)
+            if (person == null)
             {
 
 
                 return NotFound();
             }
 
-            return Ok(User);
+            return Ok(person);
 
 
         }
 
         // Crear un nuevo registro
         [HttpPost]
-        public async Task<ActionResult> Post(User User)
+        public async Task<ActionResult> Post(Person person)
         {
-            _context.Add(User);
+            _context.Add(person);
             await _context.SaveChangesAsync();
-            return Ok(User);
+            return Ok(person);
         }
 
         // Actualizar o cambiar registro
 
         [HttpPut]
-        public async Task<ActionResult> Put(User User)
+        public async Task<ActionResult> Put(Person person)
         {
-            _context.Update(User);
+            _context.Update(person);
             await _context.SaveChangesAsync();
-            return Ok(User);
+            return Ok(person);
         }
 
         // ELiminar registros
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult> Delete(int id)
         {
 
 
-            var FilaAfectada = await _context.Users
-                .Where(x => x.UserId == id)//5
+            var FilaAfectada = await _context.People
+                .Where(x => x.Id == id)//5
                 .ExecuteDeleteAsync();
 
             if (FilaAfectada == 0)

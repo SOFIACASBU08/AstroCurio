@@ -11,12 +11,12 @@ namespace AstroCurio.Shared.Entities
 {
     public class Link
     {
-        [Key]
-        [Display(Name = "Id")]
+        
+       
         public int Id { get; set; }
 
-        [Display(Name = "Usuario ID")]
-        public string UserId { get; set; } = null!;
+       
+       
 
         [Display(Name = "Título")]
         [MaxLength(100, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
@@ -34,15 +34,22 @@ namespace AstroCurio.Shared.Entities
 
         //RELACONES Fk
 
-        [JsonIgnore]
-
-        [ForeignKey("UserId")]
-        public User User { get; set; }
+        public int PersonId { get; set; }
 
         [JsonIgnore]
 
-        [ForeignKey("CategoryId")]
+        public Person Person { get; set; }
+
+        public int CategoryId { get; set; }
+        [JsonIgnore]
+
         public Category Category { get; set; }
-       
+
+
+        
+        [JsonIgnore]
+        public ICollection<Comment> Comments { get; set; }
+
+
     }
 }

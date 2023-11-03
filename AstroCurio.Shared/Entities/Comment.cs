@@ -11,18 +11,8 @@ namespace AstroCurio.Shared.Entities
 {
     public class Comment
     {
-        [Key]
-        [Display(Name = "Id")]
+       
         public int Id { get; set; }
-
-        [Display(Name = "Link ID")]
-        public int LinkId { get; set; }
-
-        [Display(Name = "Article ID")]
-        public int ArticleId { get; set; }
-
-        [Display(Name = "Photography ID")]
-        public int PhotographyId { get; set; }
 
         [Display(Name = "Fecha de Comentario")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
@@ -34,29 +24,21 @@ namespace AstroCurio.Shared.Entities
         public string Contenido { get; set; } = null!;
 
         //RELACION FK
+        public int? LinkId { get; set; }
         [JsonIgnore]
-
-        [ForeignKey("LinkId")]
         public Link Link { get; set; }
 
+        public int? ArticleId { get; set; }
         [JsonIgnore]
-
-        [ForeignKey("ArticleId")]
         public Article Article { get; set; }
 
-        [JsonIgnore]
 
-        [ForeignKey("PhotographyId")]
+        public int? PhotographyId { get; set; }
+        [JsonIgnore]
         public Photography Photography { get; set; }
-
-        [JsonIgnore]
-        ICollection<Article> Articles { get; set; }
-
-        [JsonIgnore]
-        ICollection<Link> Links { get; set; }
-
-        [JsonIgnore]
-        ICollection<Photography> photographies { get; set; }
+        
+       
+        
 
 
 

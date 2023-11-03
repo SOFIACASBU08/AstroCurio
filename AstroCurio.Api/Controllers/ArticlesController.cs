@@ -22,7 +22,7 @@ namespace AstroCurio.Api.Controllers
         {
             // Incluye las propiedades de navegación para User y Category
             var articles = await _context.Articles
-                .Include(a => a.User)
+                .Include(a => a.Person)
                 .Include(a => a.Category)
                 .ToListAsync();
 
@@ -33,7 +33,7 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Get(int id)
         {
             var article = await _context.Articles
-                .Include(a => a.User)
+                .Include(a => a.Person)
                 .Include(a => a.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -51,7 +51,7 @@ namespace AstroCurio.Api.Controllers
             try
             {
                 // Asignar el usuario y la categoría relacionados utilizando sus IDs
-                article.User = await _context.Users.FindAsync(article.UserId);
+                article.Person = await _context.People.FindAsync(article.Id);
                 article.Category = await _context.Categories.FindAsync(article.CategoryId);
 
                 _context.Articles.Add(article);
