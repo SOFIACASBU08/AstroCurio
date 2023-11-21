@@ -1,0 +1,26 @@
+﻿@* <EditForm Model="People" OnInvalidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="mb3">
+
+    </div>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public People People { get; set; } = null!;
+    //Este formulario sera generico entonces vamos hacer cuando el U coloque submit y cancelar
+    //Pasaremos las acciones
+
+    //Haremos un parametro nuevo
+    [Parameter]
+    [EditorRequired]
+    public EventCallback OnValidSubmit { get; set; }
+
+    //Haremos otro boton return action cuando el usuario quiera regresar
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback ReturnAction { get; set; }
+} *@

@@ -2,7 +2,6 @@
 using AstroCurio.Shared.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-
 namespace AstroCurio.Api.Data
 {
     public class DataContext:IdentityDbContext<User> 
@@ -18,18 +17,21 @@ namespace AstroCurio.Api.Data
         public DbSet<Comment> Comments{ get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        internal static Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void Update(Person person)
+        {
+            throw new NotImplementedException();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Article>().HasIndex(a => a.Id).IsUnique();
-            modelBuilder.Entity<Link>().HasIndex(a => a.Id).IsUnique();
-            modelBuilder.Entity<Photography>().HasIndex(a => a.Id).IsUnique();
-            modelBuilder.Entity<Comment>().HasIndex(a => a.Id).IsUnique();
-            modelBuilder.Entity<Category>().HasIndex(a => a.Id).IsUnique();
-            modelBuilder.Entity<Person>().HasIndex(a => a.Id);
-            modelBuilder.Entity<Follow>().HasIndex(a => a.Id).IsUnique();
+      
 
 
 

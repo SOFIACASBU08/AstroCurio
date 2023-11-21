@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstroCurio.Shared", "AstroCurio.Shared\AstroCurio.Shared.csproj", "{78B7AA4C-45F2-4E57-A5F5-DDA19EB5AE96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstroCurio.Shared", "AstroCurio.Shared\AstroCurio.Shared.csproj", "{78B7AA4C-45F2-4E57-A5F5-DDA19EB5AE96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstroCurio.Api", "AstroCurio.Api\AstroCurio.Api.csproj", "{5C16BDB9-45C0-4A81-8FD5-314C63A03DD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstroCurio.Api", "AstroCurio.Api\AstroCurio.Api.csproj", "{5C16BDB9-45C0-4A81-8FD5-314C63A03DD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstroCurio.Web", "AstroCurio.Web\AstroCurio.Web.csproj", "{5A79276F-331C-4975-A3E5-50DFB4263048}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstroCurio.Web", "AstroCurio.Web\AstroCurio.Web.csproj", "{5A79276F-331C-4975-A3E5-50DFB4263048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

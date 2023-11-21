@@ -1,0 +1,64 @@
+﻿@page "/comments"
+@using AstroCurio.Shared.Entities;
+@using AstroCurio.WEB.Repositories;
+
+@inject IRepository repository
+
+<h3>CommentsIndex</h3>
+
+<div class="mb-3">
+
+    <a class="btn btn-primary" href="/comments/create"> New Comment</a>
+</div>
+
+<GenericList MyList="Comments">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Comment</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Comment in Comments!)
+                {
+                    <tr>
+                        <td>
+                            @Comment.Fecha_comen
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                            
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+</GenericList>
+
+
+
+
+
+@code {
+
+    public List<Comment>? Comments { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        var responseHttp = await repository.Get<List<Comment>>("/api/comments");
+        Comments = responseHttp.Response!;
+    }
+
+
+}

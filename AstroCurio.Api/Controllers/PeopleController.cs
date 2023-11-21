@@ -3,10 +3,11 @@ using AstroCurio.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace AstroCurio.Api.Controllers
 {
     [ApiController]
-    [Route("/api/People")]
+    [Route("/api/people")]
     public class PeopleController : ControllerBase
     {
         private readonly DataContext _context;
@@ -20,7 +21,7 @@ namespace AstroCurio.Api.Controllers
         //Select * From  Users
 
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get() 
         {
 
             return Ok(await _context.People.ToListAsync());
