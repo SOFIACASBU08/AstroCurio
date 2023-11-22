@@ -11,12 +11,7 @@ namespace AstroCurio.Shared.Entities
 {
     public class Link
     {
-        
-       
         public int Id { get; set; }
-
-       
-       
 
         [Display(Name = "Título")]
         [MaxLength(100, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
@@ -45,11 +40,8 @@ namespace AstroCurio.Shared.Entities
 
         public Category Category { get; set; }
 
-
         
         [JsonIgnore]
         public ICollection<Comment> Comments { get; set; }
-
-
     }
 }

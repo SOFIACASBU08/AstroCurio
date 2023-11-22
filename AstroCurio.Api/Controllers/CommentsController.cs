@@ -55,7 +55,7 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Post(Comment Comment)
         {
             _context.Add(Comment);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(Comment);
         }
 
@@ -65,7 +65,7 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Put(Comment Comment)
         {
             _context.Update(Comment);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(Comment);
         }
 

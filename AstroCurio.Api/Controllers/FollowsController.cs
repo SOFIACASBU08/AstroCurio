@@ -55,7 +55,7 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Post(Follow Follow)
         {
             _context.Add(Follow);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(Follow);
         }
 
@@ -65,7 +65,7 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Put(Follow Follow)
         {
             _context.Update(Follow);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(Follow);
         }
 

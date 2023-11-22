@@ -14,7 +14,7 @@ namespace AstroCurio.Api.Data
         public DbSet<Article> Articles { get; set; }
         public DbSet<Link> Links { get; set; }
         public DbSet<Photography> Photographies { get; set; }
-        public DbSet<Comment> Comments{ get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<Category> Categories { get; set; }
 
         internal static Task SaveChangesAsync()
@@ -22,20 +22,14 @@ namespace AstroCurio.Api.Data
             throw new NotImplementedException();
         }
 
-        internal static void Update(Person person)
+        /*internal static void Update(Person person)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-      
-
-
-
-
         }
     }
 }

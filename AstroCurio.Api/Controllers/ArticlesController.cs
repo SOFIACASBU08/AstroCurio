@@ -58,7 +58,7 @@ namespace AstroCurio.Api.Controllers
                 article.Category = await _context.Categories.FindAsync(article.CategoryId);
 
                 _context.Articles.Add(article);
-                await _context.SaveChangesAsync();
+                 _context.SaveChanges();
                 return Ok(article);
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Put(Article article)
         {
             _context.Update(article);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(article);
         }
 

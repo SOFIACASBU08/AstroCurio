@@ -3,7 +3,6 @@ using AstroCurio.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace AstroCurio.Api.Controllers
 {
     [ApiController]
@@ -55,20 +54,17 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Post(Person person)
         {
             _context.Add(person);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(person);
         }
-
-        // Actualizar o cambiar registro
 
         [HttpPut]
         public async Task<ActionResult> Put(Person person)
         {
             _context.Update(person);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(person);
         }
-
         // ELiminar registros
 
         [HttpDelete("{id:int}")]

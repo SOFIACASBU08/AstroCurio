@@ -38,14 +38,10 @@ namespace AstroCurio.Api.Controllers
 
             if (Link == null)
             {
-
-
                 return NotFound();
             }
 
             return Ok(Link);
-
-
         }
 
         // Crear un nuevo registro
@@ -53,7 +49,7 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Post(Link Link)
         {
             _context.Add(Link);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(Link);
         }
 
@@ -63,7 +59,7 @@ namespace AstroCurio.Api.Controllers
         public async Task<ActionResult> Put(Link Link)
         {
             _context.Update(Link);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(Link);
         }
 
@@ -72,8 +68,6 @@ namespace AstroCurio.Api.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-
-
             var FilaAfectada = await _context.Links
                 .Where(x => x.Id == id)//5
                 .ExecuteDeleteAsync();
@@ -86,8 +80,6 @@ namespace AstroCurio.Api.Controllers
             }
 
             return NoContent();//204
-
-
         }
     }
 }
